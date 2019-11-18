@@ -1,16 +1,14 @@
 const io = require('socket.io');
+const chatHandlers = require('./chat-handlers');
 
 const initChat = server => {
-  console.log('server', server);
-
   const socketIo = io(server);
 
   socketIo.on('connection', client => {
-    console.log('client', client);
+    console.log('client connected...', client.id);
+    const { handleGetAllUsers, handleRegister } = chatHandlers(client);
 
-    client.on('disconect', () => {
-      console.log('client disconected', client);
-    });
+    client.on('allUsers', handleGetAllUsers).on('register', handleRegister);
   });
 };
 

@@ -12,7 +12,6 @@ app
   .use(corsMiddleware())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  // .use('/', homePage)
   .use(corsMiddleware)
   .use(errorHandler);
 
