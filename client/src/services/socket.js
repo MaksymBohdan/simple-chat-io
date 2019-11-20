@@ -11,9 +11,14 @@ const chatInit = () => {
     socket.emit('register', userName, cb);
   };
 
+  const getAllChatrooms = cb => {
+    socket.emit('allChatRooms', cb);
+  };
+
   return {
     getAllUsers,
-    register
+    register,
+    getAllChatrooms
   };
 };
 

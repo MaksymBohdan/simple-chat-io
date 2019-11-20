@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Users from './Users/UserContainer';
-import chatInit from '../services/socket';
-import './App.css';
 import Main from './Main/Main';
+import Users from './Users/UserContainer';
+
+import chatInit from '../services/socket';
 
 class App extends Component {
   state = {
@@ -34,12 +34,13 @@ class App extends Component {
 
     return (
       <Switch>
-        <Route path='/' exact render={() => <Main user={user} />} />
-
         <Route
+          exact
           path='/users'
           render={props => <Users getAllUsers={client.getAllUsers} register={this.handleUserRegistration} {...props} />}
         />
+
+        <Route path='/' render={props => <Main user={user} {...props} />} />
       </Switch>
     );
   }

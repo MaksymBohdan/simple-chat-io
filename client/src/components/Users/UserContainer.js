@@ -24,13 +24,15 @@ class UserContainer extends Component {
   };
 
   render() {
-    const { allUsers } = this.state;
+    const { allUsers = [] } = this.state;
 
     return (
       <ul>
         {allUsers &&
           allUsers.map(user => (
-            <UsersView key={user.id} user={user} onClick={() => this.handleUserSelection(user.name)} />
+            <li key={user.name}>
+              <UsersView key={user.id} user={user} onClick={() => this.handleUserSelection(user.name)} />
+            </li>
           ))}
       </ul>
     );
