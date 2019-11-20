@@ -1,4 +1,5 @@
-const allUsers = require('./usersList');
+const allUsers = require('./templates/usersList');
+const allChatRooms = require('./templates/chatroomsList');
 
 const chatHandlers = client => {
   const handleGetAllUsers = res => {
@@ -11,7 +12,11 @@ const chatHandlers = client => {
     return res(null, user);
   };
 
-  return { handleGetAllUsers, handleRegister };
+  const handleGetAllChatrooms = res => {
+    return res(null, allChatRooms);
+  };
+
+  return { handleGetAllUsers, handleRegister, handleGetAllChatrooms };
 };
 
 module.exports = chatHandlers;

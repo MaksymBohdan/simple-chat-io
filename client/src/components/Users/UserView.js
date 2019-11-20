@@ -1,11 +1,12 @@
 import React from 'react';
 
+
 const UserView = ({ user, onClick }) => (
-  <li onClick={onClick}>
+  <div onClick={onClick}>
     <p>{user.name}</p>
     <img src={user.image} alt='user' />
     <p>{user.statusText}</p>
-  </li>
+  </div>
 );
 
 export default UserView;
