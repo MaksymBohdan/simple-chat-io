@@ -1,40 +1,32 @@
 import React, { Component } from 'react';
-import UsersView from './UserView';
+import UserList from './UserList';
+
+import chatInit from '../../services/socket';
 
 class UserContainer extends Component {
   state = {
-    allUsers: null
+    allUsers: [],
+    client: chatInit()
   };
 
   componentDidMount() {
-    const { getAllUsers } = this.props;
+    const { getAllUsers } = this.state.client;
 
     getAllUsers((err, allUsers) => {
-      this.setState({
-        allUsers
-      });
+      if (err) return this.setState({ allUsers: [] });
+
+      this.setState({ allUsers });
     });
   }
 
-  handleUserSelection = userName => {
-    const { history, register } = this.props;
-
-    register(userName);
-    history.push('/');
-  };
-
   render() {
-    const { allUsers = [] } = this.state;
+    const { allUsers } = this.state;
+    const { fetchUser } = this.props;
 
     return (
-      <ul>
-        {allUsers &&
-          allUsers.map(user => (
-            <li key={user.name}>
-              <UsersView key={user.id} user={user} onClick={() => this.handleUserSelection(user.name)} />
-            </li>
-          ))}
-      </ul>
+      <div>
+        <UserList allUsers={allUsers} fetchUser={fetchUser} />
+      </div>
     );
   }
 }

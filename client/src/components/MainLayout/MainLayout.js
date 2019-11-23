@@ -1,29 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Reset } from 'styled-reset';
-import bg from '../../assets/bg.jpg';
+import Logo from '../Logo/Logo';
 
-const FullScreen = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-image: url(${bg});
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
+import { Reset, FullScreen, Content, LogoWrapper, ChatWrapper } from './styles';
 
-const Content = styled.div`
-  width: 50vw;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const MainLayout = ({ children }) => (
+const MainLayout = ({ children, user }) => (
   <FullScreen>
     <Reset />
-    <Content>{children}</Content>
+    <Content>
+      <LogoWrapper>
+        <Logo user={user} />
+      </LogoWrapper>
+      <ChatWrapper>{children}</ChatWrapper>
+    </Content>
   </FullScreen>
 );
 

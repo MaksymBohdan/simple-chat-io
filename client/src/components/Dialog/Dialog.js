@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { DialogWrapper } from './styles';
 
 class Dialog extends Component {
-  render(props) {
-    console.log('props', props);
+  render() {
+    const { history } = this.props;
+
     return (
-      <div>
+      <DialogWrapper>
         <h1>dialog</h1>
-        <p onClick={() => props.history.push('/')}>back</p>
-      </div>
+        <p onClick={() => history.push('/')}>back</p>
+      </DialogWrapper>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const UserView = ({ user, onClick }) => (
   <div onClick={onClick}>
     <p>{user.name}</p>

@@ -1,40 +1,17 @@
-import React, { Component } from 'react';
-import ChatroomView from './ChatroomView';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import chatInit from '../../services/socket';
-
-class ChatroomList extends Component {
-  state = {
-    chatrooms: []
-  };
-
-  componentDidMount() {
-    const { getAllChatrooms } = chatInit();
-
-    getAllChatrooms((err, chatrooms) => {
-      console.log(chatrooms);
-
-      this.setState({
-        chatrooms
-      });
-    });
-  }
-
-  render() {
-    const { chatrooms } = this.state;
-
-    return (
-      <>
-        <ul>
-          {chatrooms.map(room => (
-            <li key={room.name}>
-              <ChatroomView room={room} />
-            </li>
-          ))}
-        </ul>
-      </>
-    );
-  }
-}
+const ChatroomList = ({ chatrooms }) => (
+  <ul style={{ backgroundColor: `rgba(0, 0, 0, 0.4)`, width: '100%' }}>
+    {chatrooms.map(room => (
+      <li key={room.name}>
+        <Link to={`/chatroom/${room.name}`}>
+          <img src={room.image} alt='room' />
+          <p>{room.name}</p>
+        </Link>
+      </li>
+    ))}
+  </ul>
+);
 
 export default ChatroomList;

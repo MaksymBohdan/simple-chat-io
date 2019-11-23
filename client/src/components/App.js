@@ -1,47 +1,57 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Main from './Main/Main';
+import MainLayout from './MainLayout/MainLayout';
 import Users from './Users/UserContainer';
+import ChatroomList from './Chatrooms/ChatroomList';
+import Dialog from './Dialog/Dialog';
 
 import chatInit from '../services/socket';
 
 class App extends Component {
   state = {
     user: null,
-    isRegistrationInProcess: false,
+    chatrooms: [],
     client: chatInit()
   };
 
-  handleUserRegistration = userName => {
-    const { register } = this.state.client;
+  componentDidMount() {
+    this.handleFetchAllChatrooms();
+  }
 
-    this.setState({
-      isRegistrationInProcess: true
-    });
+  handleFetchChoosenUser = userName => {
+    const { register } = this.state.client;
+    const { history } = this.props;
 
     register(userName, (err, user) => {
       if (err) return this.setState({ user: null });
 
-      this.setState({
-        isRegistrationInProcess: false,
-        user
-      });
+      this.setState({ user });
+
+      history.push('/');
+    });
+  };
+
+  handleFetchAllChatrooms = () => {
+    const { getAllChatrooms } = chatInit();
+
+    getAllChatrooms((err, chatrooms) => {
+      if (err) return this.setState({ chatrooms: [] });
+
+      this.setState({ chatrooms });
     });
   };
 
   render() {
-    const { user, client } = this.state;
+    const { user, chatrooms } = this.state;
 
     return (
-      <Switch>
-        <Route
-          exact
-          path='/users'
-          render={props => <Users getAllUsers={client.getAllUsers} register={this.handleUserRegistration} {...props} />}
-        />
-
-        <Route path='/' render={props => <Main user={user} {...props} />} />
-      </Switch>
+      <MainLayout user={user}>
+        <Switch>
+          <Route exact path='/' render={() => <ChatroomList chatrooms={chatrooms} />} />
+          <Route exact path='/chatroom/:roomname' render={props => <Dialog {...props} />} />
+        </Switch>
+        <Route path='/users' render={props => <Users fetchUser={this.handleFetchChoosenUser} {...props} />} />
+      </MainLayout>
     );
   }
 }
