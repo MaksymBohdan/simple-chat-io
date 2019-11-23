@@ -31,11 +31,7 @@ const ChatWrapper = styled.div`
   height: 90%;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  overflow: auto;
+  overflow: hidden;
 `;
 
 export { Reset, FullScreen, Content, LogoWrapper, ChatWrapper };
