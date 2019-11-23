@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { List, ListElement } from './styles';
 
-const ChatroomList = ({ chatrooms }) => (
-  <ul style={{ backgroundColor: `rgba(0, 0, 0, 0.4)`, width: '100%' }}>
+const ChatroomsList = ({ chatrooms }) => (
+  <List>
     {chatrooms.map(room => (
-      <li key={room.name}>
+      <ListElement key={room.name}>
         <Link to={`/chatroom/${room.name}`}>
           <img src={room.image} alt='room' />
           <p>{room.name}</p>
         </Link>
-      </li>
+      </ListElement>
     ))}
-  </ul>
+  </List>
 );
 
-export default ChatroomList;
+export default ChatroomsList;

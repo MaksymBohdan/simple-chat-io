@@ -34,9 +34,9 @@ const Inner = styled.div`
   height: 400px;
   overflow: auto;
   margin: 15px -300px 15px 15px;
+  padding-right: 300px;
   display: flex;
   justify-content: center;
-  padding-right: 300px;
 `;
 
 export { Backdrop, ModalWindow, Inner, ReturnBtn };
