@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import MainLayout from './MainLayout/MainLayout';
 import Users from './Users/UserContainer';
 import ChatroomsList from './Chatrooms/ChatroomsList';
-import Dialog from './Dialog/Dialog';
+import Chat from './Chat/Chat';
 
 import chatInit from '../services/socket';
 
@@ -48,7 +48,7 @@ class App extends Component {
       <MainLayout user={user}>
         <Switch>
           <Route exact path='/' render={() => <ChatroomsList chatrooms={chatrooms} />} />
-          <Route exact path='/chatroom/:roomname' render={props => <Dialog {...props} />} />
+          <Route exact path='/chatroom/:roomname' render={props => <Chat {...props} />} />
         </Switch>
         <Route path='/users' render={props => <Users fetchUser={this.handleFetchChoosenUser} {...props} />} />
       </MainLayout>
