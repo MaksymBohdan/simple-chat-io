@@ -10,7 +10,8 @@ import chatInit from '../services/socket';
 class App extends Component {
   state = {
     user: null,
-    chatrooms: []
+    chatrooms: [],
+    client: chatInit()
   };
 
   componentDidMount() {
@@ -18,10 +19,9 @@ class App extends Component {
   }
 
   handleClientRegistration = userName => {
-    const { registerClient } = chatInit();
     const { history } = this.props;
 
-    registerClient(userName, (err, user) => {
+    this.state.client.registerClient(userName, (err, user) => {
       if (err) return this.setState({ user: null });
 
       this.setState({ user });
@@ -31,9 +31,7 @@ class App extends Component {
   };
 
   handleFetchAllChatrooms = () => {
-    const { getAllChatrooms } = chatInit();
-
-    getAllChatrooms((err, chatrooms) => {
+    this.state.client.getAllChatrooms((err, chatrooms) => {
       if (err) return this.setState({ chatrooms: [] });
 
       this.setState({ chatrooms });
@@ -41,15 +39,35 @@ class App extends Component {
   };
 
   render() {
-    const { user, chatrooms } = this.state;
+    const { user, chatrooms, client } = this.state;
 
     return (
       <MainLayout user={user}>
         <Switch>
           <Route exact path='/' render={() => <ChatroomsList chatrooms={chatrooms} />} />
-          <Route exact path='/chatroom/:roomname' render={props => <Chat {...props} user={user} />} />
+          <Route
+            exact
+            path='/chatroom/:roomname'
+            render={props => (
+              <Chat
+                {...props}
+                user={user}
+                joinClientToChat={client.joinClientToChat}
+                handleReceiveMessage={client.handleReceiveMessage}
+              />
+            )}
+          />
         </Switch>
-        <Route path='/users' render={props => <Users handleClientRegistration={this.handleClientRegistration} {...props} />} />
+        <Route
+          path='/users'
+          render={props => (
+            <Users
+              handleClientRegistration={this.handleClientRegistration}
+              getAllUsers={client.getAllUsers}
+              {...props}
+            />
+          )}
+        />
       </MainLayout>
     );
   }
