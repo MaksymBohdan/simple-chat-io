@@ -21,11 +21,11 @@ class UserContainer extends Component {
 
   render() {
     const { allUsers } = this.state;
-    const { fetchUser } = this.props;
+    const { handleClientRegistration } = this.props;
 
     return (
       <div>
-        <UserList allUsers={allUsers} fetchUser={fetchUser} />
+        <UserList allUsers={allUsers} handleClientRegistration={handleClientRegistration} />
       </div>
     );
   }

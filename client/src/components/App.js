@@ -10,19 +10,18 @@ import chatInit from '../services/socket';
 class App extends Component {
   state = {
     user: null,
-    chatrooms: [],
-    client: chatInit()
+    chatrooms: []
   };
 
   componentDidMount() {
     this.handleFetchAllChatrooms();
   }
 
-  handleFetchChoosenUser = userName => {
-    const { register } = this.state.client;
+  handleClientRegistration = userName => {
+    const { registerClient } = chatInit();
     const { history } = this.props;
 
-    register(userName, (err, user) => {
+    registerClient(userName, (err, user) => {
       if (err) return this.setState({ user: null });
 
       this.setState({ user });
@@ -48,9 +47,9 @@ class App extends Component {
       <MainLayout user={user}>
         <Switch>
           <Route exact path='/' render={() => <ChatroomsList chatrooms={chatrooms} />} />
-          <Route exact path='/chatroom/:roomname' render={props => <Chat {...props} />} />
+          <Route exact path='/chatroom/:roomname' render={props => <Chat {...props} user={user} />} />
         </Switch>
-        <Route path='/users' render={props => <Users fetchUser={this.handleFetchChoosenUser} {...props} />} />
+        <Route path='/users' render={props => <Users handleClientRegistration={this.handleClientRegistration} {...props} />} />
       </MainLayout>
     );
   }

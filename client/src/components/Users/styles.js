@@ -22,21 +22,23 @@ const ReturnBtn = styled.div`
 `;
 
 const ModalWindow = styled.div`
+  width: 700px;
+  height: 400px;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
-  overflow: hidden;
   text-align: justify;
   position: relative;
 `;
 
 const Inner = styled.div`
-  width: 900px;
+  width: 700px;
   height: 400px;
-  overflow: auto;
-  margin: 15px -300px 15px 15px;
-  padding-right: 300px;
   display: flex;
   justify-content: center;
+  padding-right: 17px;
+  overflow-y: scroll;
+  box-sizing: content-box;
 `;
 
 export { Backdrop, ModalWindow, Inner, ReturnBtn };

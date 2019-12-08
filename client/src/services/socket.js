@@ -7,18 +7,25 @@ const chatInit = () => {
     socket.emit('allUsers', cb);
   };
 
-  const register = (userName, cb) => {
-    socket.emit('register', userName, cb);
-  };
-
   const getAllChatrooms = cb => {
     socket.emit('allChatRooms', cb);
   };
 
+  const registerClient = (userName, cb) => {
+    socket.emit('register', userName, cb);
+  };
+
+  const joinClientToChat = (chatroomName, cb) => {
+    console.log('chatName', chatroomName);
+
+    socket.emit('join', chatroomName, cb);
+  };
+
   return {
     getAllUsers,
-    register,
-    getAllChatrooms
+    registerClient,
+    getAllChatrooms,
+    joinClientToChat
   };
 };
 
