@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { ChatWrapper, MessageArea } from './styles';
 
-import chatInit from '../../services/socket';
-
 class Chat extends Component {
   state = {
     chatHistory: [],
@@ -11,16 +9,32 @@ class Chat extends Component {
 
   componentDidMount() {
     this.joinClientToChat();
+    this.handleReceiveMessage();
   }
 
+  handleReceiveMessage = () => {
+    this.props.handleReceiveMessage(data => {
+
+      this.setState({
+        chatHistory: [...this.state.chatHistory, data]
+      });
+    });
+  };
+
   joinClientToChat = () => {
-    const { joinClientToChat } = chatInit();
     const {
-      match: { params }
+      match: { params },
+      joinClientToChat
     } = this.props;
 
-    joinClientToChat(params.roomname, err => {
-      console.log('err :', err);
+    joinClientToChat(params.roomname, (err, chatHistory) => {
+      if (err) return console.log('err :', err);
+
+      console.log('joinClientToChat', chatHistory);
+
+      this.setState({
+        chatHistory
+      });
     });
   };
 
@@ -36,7 +50,7 @@ class Chat extends Component {
         <p onClick={() => history.push('/')}>back</p>
         <ul>
           {chatHistory.map(message => (
-            <li key={message}>{message}</li>
+            <li key={message.name}>{message.event || message.message}</li>
           ))}
         </ul>
         <MessageArea rows='1' onChange={this.onMessageChange} value={message} />

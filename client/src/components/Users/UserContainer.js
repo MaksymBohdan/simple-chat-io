@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import UserList from './UserList';
 
-import chatInit from '../../services/socket';
-
 class UserContainer extends Component {
   state = {
-    allUsers: [],
-    client: chatInit()
+    allUsers: []
   };
 
   componentDidMount() {
-    const { getAllUsers } = this.state.client;
-
-    getAllUsers((err, allUsers) => {
+    this.props.getAllUsers((err, allUsers) => {
       if (err) return this.setState({ allUsers: [] });
 
       this.setState({ allUsers });

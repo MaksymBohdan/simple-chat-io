@@ -16,16 +16,19 @@ const chatInit = () => {
   };
 
   const joinClientToChat = (chatroomName, cb) => {
-    console.log('chatName', chatroomName);
-
     socket.emit('join', chatroomName, cb);
+  };
+
+  const handleReceiveMessage = joinMessage => {
+    socket.on('message', joinMessage);
   };
 
   return {
     getAllUsers,
     registerClient,
     getAllChatrooms,
-    joinClientToChat
+    joinClientToChat,
+    handleReceiveMessage
   };
 };
 
