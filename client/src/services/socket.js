@@ -19,16 +19,26 @@ const chatInit = () => {
     socket.emit('join', chatroomName, cb);
   };
 
+  const leaveClientFromChat = (chatroomName, cb) => {
+    socket.emit('leave', chatroomName, cb);
+  };
+
   const handleReceiveMessage = joinMessage => {
     socket.on('message', joinMessage);
   };
+
+  const unhandleReceiveMessage = () => {
+    socket.off('message')
+  }
 
   return {
     getAllUsers,
     registerClient,
     getAllChatrooms,
     joinClientToChat,
-    handleReceiveMessage
+    leaveClientFromChat,
+    handleReceiveMessage,
+    unhandleReceiveMessage
   };
 };
 

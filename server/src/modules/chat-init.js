@@ -6,15 +6,20 @@ const initChat = server => {
 
   socketIo.on('connection', client => {
     console.log('client connected...', client.id);
-    const { handleGetAllUsers, handleClientRegistration, handleGetAllChatrooms, handleJoinClient } = chatHandlers(
-      client
-    );
+    const {
+      handleGetAllUsers,
+      handleClientRegistration,
+      handleGetAllChatrooms,
+      handleJoinClient,
+      handleLeaveClient
+    } = chatHandlers(client);
 
     client
       .on('allUsers', handleGetAllUsers)
       .on('allChatRooms', handleGetAllChatrooms)
       .on('register', handleClientRegistration)
-      .on('join', handleJoinClient);
+      .on('join', handleJoinClient)
+      .on('leave', handleLeaveClient);
   });
 };
 

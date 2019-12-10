@@ -18,9 +18,10 @@ const chatHandlers = client => {
     return res(null, user);
   };
 
-  const ensureValidUserAndChatroom = (chatroomName, client) => {
+  const getUserAndChatroom = (chatroomName, client) => {
     return new Promise((resolve, reject) => {
       const user = getUserByClientId(client.id);
+
       const chatRoom = getChatRoomByName(chatroomName);
 
       if (user && chatRoom) return resolve({ user, chatRoom });
@@ -30,22 +31,35 @@ const chatHandlers = client => {
   };
 
   const handleJoinClient = (chatroomName, res) => {
-    ensureValidUserAndChatroom(chatroomName, client)
-      .then(({ user, chatRoom }) => {
-        const joinMessage = { ...user, event: `joined ${chatroomName}` };
+    const joinMessage = { event: `joined ${chatroomName}` };
 
-        chatRoom.addMessageToHistory(joinMessage);
-        chatRoom.broadcastMessage({ ...joinMessage, chat: chatroomName });
+    getUserAndChatroom(chatroomName, client)
+      .then(({ user, chatRoom }) => {
+        chatRoom.addMessageToHistory({ ...joinMessage, ...user });
         chatRoom.addUser(client);
+        chatRoom.broadcastMessage(joinMessage);
 
         res(null, chatRoom.getChatHistory());
       })
       .catch(err => console.log(err));
-
-    return null;
   };
 
-  return { handleGetAllUsers, handleClientRegistration, handleGetAllChatrooms, handleJoinClient };
+  const handleLeaveClient = (chatroomName, res) => {
+    const leaveMessage = { event: `leaved ${chatroomName}` };
+
+    getUserAndChatroom(chatroomName, client)
+      .then(({ user, chatRoom }) => {
+        chatRoom.addMessageToHistory({ ...leaveMessage, ...user });
+        chatRoom.removeUser(client);
+
+        res(null);
+        return chatRoom;
+      })
+      .then(chatRoom => chatRoom.broadcastMessage(leaveMessage))
+      .catch(err => console.log(err));
+  };
+
+  return { handleGetAllUsers, handleClientRegistration, handleGetAllChatrooms, handleJoinClient, handleLeaveClient };
 };
 
 module.exports = chatHandlers;
