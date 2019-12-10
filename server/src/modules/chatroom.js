@@ -14,12 +14,16 @@ const createChatroom = () => {
     members[client.id] = client;
     console.log('user added');
   };
+  const removeUser = client => {
+    console.log('user left');
+    delete members[client];
+  };
 
   const getChatHistory = () => {
     return historyMessages;
   };
 
-  return { addMessageToHistory, broadcastMessage, addUser, getChatHistory };
+  return { addMessageToHistory, broadcastMessage, addUser, getChatHistory, removeUser };
 };
 
 module.exports = createChatroom;

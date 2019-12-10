@@ -14,7 +14,7 @@ class Chat extends Component {
 
   handleReceiveMessage = () => {
     this.props.handleReceiveMessage(data => {
-
+      console.log('messge received');
       this.setState({
         chatHistory: [...this.state.chatHistory, data]
       });
@@ -38,19 +38,38 @@ class Chat extends Component {
     });
   };
 
+  leaveClientFromChat = () => {
+    const {
+      match: { params },
+      history,
+      leaveClientFromChat
+    } = this.props;
+
+    leaveClientFromChat(params.roomname, err => {
+      if (err) return console.log('err', err);
+
+      console.log('leaveClientFromChat');
+
+      history.push('/');
+    });
+  };
+
+  componentWillUnmount() {
+    this.props.unhandleReceiveMessage();
+  }
+
   onMessageChange = e => this.setState({ message: e.target.value });
 
   render() {
-    const { history } = this.props;
     const { message, chatHistory } = this.state;
 
     return (
       <ChatWrapper>
         <h1>dialog</h1>
-        <p onClick={() => history.push('/')}>back</p>
+        <p onClick={this.leaveClientFromChat}>back</p>
         <ul>
-          {chatHistory.map(message => (
-            <li key={message.name}>{message.event || message.message}</li>
+          {chatHistory.map((message, idx) => (
+            <li key={idx}>{message.event || message.message}</li>
           ))}
         </ul>
         <MessageArea rows='1' onChange={this.onMessageChange} value={message} />

@@ -53,7 +53,9 @@ class App extends Component {
                 {...props}
                 user={user}
                 joinClientToChat={client.joinClientToChat}
+                leaveClientFromChat={client.leaveClientFromChat}
                 handleReceiveMessage={client.handleReceiveMessage}
+                unhandleReceiveMessage={client.unhandleReceiveMessage}
               />
             )}
           />
