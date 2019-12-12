@@ -4,19 +4,21 @@ const createChatroom = () => {
 
   const addMessageToHistory = msg => historyMessages.push(msg);
 
-  const broadcastMessage = message => {
-    Object.values(members).forEach(member => {
-      member.emit('message', message);
-    });
+  const broadcastMessage = (message, chatroomName) => {
+    Object.values(members)
+      .filter(member => member.currentChatroom === chatroomName)
+      .forEach(member => member.emit('message', message));
   };
 
-  const addUser = client => {
+  const addUser = (client, chatroomName) => {
     members[client.id] = client;
+    members[client.id].currentChatroom = chatroomName;
+
     console.log('user added');
   };
   const removeUser = client => {
-    console.log('user left');
     delete members[client];
+    console.log('user left');
   };
 
   const getChatHistory = () => {

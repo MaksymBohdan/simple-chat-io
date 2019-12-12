@@ -2,20 +2,20 @@ const { getUserByName, registerClient, getUserByClientId, getAllUsers } = requir
 const { getChatRoomByName, getAllChatrooms } = require('./chatroom-manager');
 
 const chatHandlers = client => {
-  const handleGetAllUsers = res => {
-    return res(null, getAllUsers());
-  };
-
-  const handleGetAllChatrooms = res => {
-    return res(null, getAllChatrooms());
-  };
-
   const handleClientRegistration = (userName, res) => {
     const user = getUserByName(userName);
 
     registerClient(client, user);
 
     return res(null, user);
+  };
+
+  const handleGetAllUsers = res => {
+    return res(null, getAllUsers());
+  };
+
+  const handleGetAllChatrooms = res => {
+    return res(null, getAllChatrooms());
   };
 
   const getUserAndChatroom = (chatroomName, client) => {
@@ -36,8 +36,8 @@ const chatHandlers = client => {
     getUserAndChatroom(chatroomName, client)
       .then(({ user, chatRoom }) => {
         chatRoom.addMessageToHistory({ ...joinMessage, ...user });
-        chatRoom.addUser(client);
-        chatRoom.broadcastMessage(joinMessage);
+        chatRoom.addUser(client, chatroomName);
+        chatRoom.broadcastMessage(joinMessage, chatroomName);
 
         res(null, chatRoom.getChatHistory());
       })
@@ -59,7 +59,25 @@ const chatHandlers = client => {
       .catch(err => console.log(err));
   };
 
-  return { handleGetAllUsers, handleClientRegistration, handleGetAllChatrooms, handleJoinClient, handleLeaveClient };
+  const handleMessage = (message, res) => {
+    getUserAndChatroom(message.roomname, client)
+      .then(({ user, chatRoom }) => {
+        chatRoom.addMessageToHistory({ ...message, ...user });
+        chatRoom.broadcastMessage(message, message.roomname);
+
+        return res(null);
+      })
+      .catch(err => console.log('eer', err));
+  };
+
+  return {
+    handleGetAllUsers,
+    handleClientRegistration,
+    handleGetAllChatrooms,
+    handleJoinClient,
+    handleLeaveClient,
+    handleMessage
+  };
 };
 
 module.exports = chatHandlers;
