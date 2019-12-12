@@ -11,15 +11,17 @@ const initChat = server => {
       handleClientRegistration,
       handleGetAllChatrooms,
       handleJoinClient,
-      handleLeaveClient
+      handleLeaveClient,
+      handleMessage
     } = chatHandlers(client);
 
     client
-      .on('allUsers', handleGetAllUsers)
-      .on('allChatRooms', handleGetAllChatrooms)
       .on('register', handleClientRegistration)
       .on('join', handleJoinClient)
-      .on('leave', handleLeaveClient);
+      .on('leave', handleLeaveClient)
+      .on('message', handleMessage)
+      .on('allUsers', handleGetAllUsers)
+      .on('allChatRooms', handleGetAllChatrooms)
   });
 };
 

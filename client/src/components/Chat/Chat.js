@@ -60,6 +60,21 @@ class Chat extends Component {
 
   onMessageChange = e => this.setState({ message: e.target.value });
 
+  onMessageSend = () => {
+    const { message } = this.state;
+    const {
+      handleSendMessage,
+      match: { params }
+    } = this.props;
+    if (!message) return;
+
+    handleSendMessage({ message, roomname: params.roomname }, err => {
+      if (err) return console.log('err', err);
+      console.log('client');
+      this.setState({ message: '' });
+    });
+  };
+
   render() {
     const { message, chatHistory } = this.state;
 

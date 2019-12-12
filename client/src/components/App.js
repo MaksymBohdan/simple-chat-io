@@ -56,6 +56,7 @@ class App extends Component {
                 leaveClientFromChat={client.leaveClientFromChat}
                 handleReceiveMessage={client.handleReceiveMessage}
                 unhandleReceiveMessage={client.unhandleReceiveMessage}
+                handleSendMessage={client.handleSendMessage}
               />
             )}
           />
