@@ -21,7 +21,6 @@ const chatHandlers = client => {
   const getUserAndChatroom = (chatroomName, client) => {
     return new Promise((resolve, reject) => {
       const user = getUserByClientId(client.id);
-
       const chatRoom = getChatRoomByName(chatroomName);
 
       if (user && chatRoom) return resolve({ user, chatRoom });
@@ -36,8 +35,8 @@ const chatHandlers = client => {
     getUserAndChatroom(chatroomName, client)
       .then(({ user, chatRoom }) => {
         chatRoom.addMessageToHistory({ ...joinMessage, ...user });
-        chatRoom.addUser(client, chatroomName);
-        chatRoom.broadcastMessage(joinMessage, chatroomName);
+        chatRoom.addUser(client);
+        chatRoom.broadcastMessage(joinMessage);
 
         res(null, chatRoom.getChatHistory());
       })
@@ -63,7 +62,7 @@ const chatHandlers = client => {
     getUserAndChatroom(message.roomname, client)
       .then(({ user, chatRoom }) => {
         chatRoom.addMessageToHistory({ ...message, ...user });
-        chatRoom.broadcastMessage(message, message.roomname);
+        chatRoom.broadcastMessage(message);
 
         return res(null);
       })

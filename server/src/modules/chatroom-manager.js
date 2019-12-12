@@ -1,4 +1,3 @@
-const allChatRooms = require('./templates/chatroomsList');
 const chatroomTempates = require('./templates/chatroomsList');
 const createChatroom = require('./chatroom');
 
@@ -11,7 +10,9 @@ const getChatRoomByName = chatroomName => {
 };
 
 const getAllChatrooms = () => {
-  return allChatRooms;
+  const roomsAll = Object.values(chatrooms).map(room => room.getRoomInfo());
+
+  return roomsAll;
 };
 
 module.exports = { getChatRoomByName, getAllChatrooms };

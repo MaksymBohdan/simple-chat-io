@@ -1,21 +1,22 @@
-const createChatroom = () => {
+const createChatroom = ({ name: roomname, image }) => {
   const members = {};
   const historyMessages = [];
 
   const addMessageToHistory = msg => historyMessages.push(msg);
 
-  const broadcastMessage = (message, chatroomName) => {
+  const broadcastMessage = message => {
     Object.values(members)
-      .filter(member => member.currentChatroom === chatroomName)
+      .filter(member => member.currentChatroom === roomname)
       .forEach(member => member.emit('message', message));
   };
 
-  const addUser = (client, chatroomName) => {
+  const addUser = client => {
     members[client.id] = client;
-    members[client.id].currentChatroom = chatroomName;
+    members[client.id].currentChatroom = roomname;
 
     console.log('user added');
   };
+
   const removeUser = client => {
     delete members[client];
     console.log('user left');
@@ -25,7 +26,11 @@ const createChatroom = () => {
     return historyMessages;
   };
 
-  return { addMessageToHistory, broadcastMessage, addUser, getChatHistory, removeUser };
+  const getRoomInfo = () => {
+    return { name: roomname, image, size: Object.keys(members).length };
+  };
+
+  return { addMessageToHistory, broadcastMessage, addUser, getChatHistory, removeUser, getRoomInfo };
 };
 
 module.exports = createChatroom;
