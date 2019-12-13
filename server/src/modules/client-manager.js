@@ -4,7 +4,11 @@ const allUsers = require('./templates/usersList');
 const clients = {};
 
 const getAllUsers = () => {
-  return allUsers;
+  const chosenUsersId = []; 
+
+  Object.values(clients).map(client => chosenUsersId.push(client.user.id));
+
+  return allUsers.filter(user => !chosenUsersId.includes(user.id));
 };
 
 const getUserByName = userName => allUsers.find(user => user.name === userName);
