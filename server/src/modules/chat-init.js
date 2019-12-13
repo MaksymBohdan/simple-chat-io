@@ -12,7 +12,8 @@ const initChat = server => {
       handleGetAllChatrooms,
       handleJoinClient,
       handleLeaveClient,
-      handleMessage
+      handleMessage,
+      handleDisconnect
     } = chatHandlers(client);
 
     client
@@ -22,6 +23,7 @@ const initChat = server => {
       .on('message', handleMessage)
       .on('allUsers', handleGetAllUsers)
       .on('allChatRooms', handleGetAllChatrooms)
+      .on('disconnect', handleDisconnect)
   });
 };
 
