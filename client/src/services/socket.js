@@ -35,6 +35,10 @@ const chatInit = () => {
     socket.off('message');
   };
 
+  socket.on('error', err => {
+    console.log('error :', err);
+  });
+
   return {
     registerClient,
     getAllUsers,

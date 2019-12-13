@@ -15,4 +15,8 @@ const getAllChatrooms = () => {
   return roomsAll;
 };
 
-module.exports = { getChatRoomByName, getAllChatrooms };
+const removeClientFromChats = client => {
+  Object.values(chatrooms).map(room => room.removeUser(client));
+}
+
+module.exports = { getChatRoomByName, getAllChatrooms, removeClientFromChats };

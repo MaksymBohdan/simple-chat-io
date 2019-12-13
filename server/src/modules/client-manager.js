@@ -21,6 +21,10 @@ const registerClient = (client, user) => {
   clients[client.id] = { client, user };
 };
 
+const unregisterClient = (client) => {
+  delete clients[client.id];
+}
+
 const getUserByClientId = id => {
   const client = clients[id];
   return client.user;
@@ -30,5 +34,6 @@ module.exports = {
   getUserByName,
   registerClient,
   getUserByClientId,
-  getAllUsers
+  getAllUsers,
+  unregisterClient
 };

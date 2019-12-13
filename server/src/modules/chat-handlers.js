@@ -1,5 +1,5 @@
-const { getUserByName, registerClient, getUserByClientId, getAllUsers } = require('./client-manager');
-const { getChatRoomByName, getAllChatrooms } = require('./chatroom-manager');
+const { getUserByName, registerClient, getUserByClientId, getAllUsers, unregisterClient } = require('./client-manager');
+const { getChatRoomByName, getAllChatrooms, removeClientFromChats } = require('./chatroom-manager');
 
 const chatHandlers = client => {
   const handleClientRegistration = (userName, res) => {
@@ -69,13 +69,19 @@ const chatHandlers = client => {
       .catch(err => console.log('eer', err));
   };
 
+  const handleDisconnect = () => {
+    removeClientFromChats(client);
+    unregisterClient(client);
+  };
+
   return {
     handleGetAllUsers,
     handleClientRegistration,
     handleGetAllChatrooms,
     handleJoinClient,
     handleLeaveClient,
-    handleMessage
+    handleMessage,
+    handleDisconnect
   };
 };
 
