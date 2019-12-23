@@ -13,13 +13,10 @@ const createChatroom = ({ name: roomname, image }) => {
   const addUser = client => {
     members[client.id] = client;
     members[client.id].currentChatroom = roomname;
-
-    console.log('user added');
   };
 
   const removeUser = client => {
     delete members[client];
-    console.log('user left');
   };
 
   const getChatHistory = () => {

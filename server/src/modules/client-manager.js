@@ -4,7 +4,7 @@ const allUsers = require('./templates/usersList');
 const clients = {};
 
 const getAllUsers = () => {
-  const chosenUsersId = []; 
+  const chosenUsersId = [];
 
   Object.values(clients).map(client => chosenUsersId.push(client.user.id));
 
@@ -14,16 +14,13 @@ const getAllUsers = () => {
 const getUserByName = userName => allUsers.find(user => user.name === userName);
 
 const registerClient = (client, user) => {
-  // client - устройство/клиент
-  // user - пользователь
-  console.log('Client registered', client.id);
-
+  // client - устройство/клиент; user - пользователь
   clients[client.id] = { client, user };
 };
 
-const unregisterClient = (client) => {
+const unregisterClient = client => {
   delete clients[client.id];
-}
+};
 
 const getUserByClientId = id => {
   const client = clients[id];

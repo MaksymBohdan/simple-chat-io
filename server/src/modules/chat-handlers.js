@@ -30,11 +30,11 @@ const chatHandlers = client => {
   };
 
   const handleJoinClient = (chatroomName, res) => {
-    const joinMessage = { event: `joined ${chatroomName}` };
-
     getUserAndChatroom(chatroomName, client)
       .then(({ user, chatRoom }) => {
-        chatRoom.addMessageToHistory({ ...joinMessage, ...user });
+        const joinMessage = { event: `joined ${chatroomName}`, ...user };
+
+        chatRoom.addMessageToHistory(joinMessage);
         chatRoom.addUser(client);
         chatRoom.broadcastMessage(joinMessage);
 
@@ -44,17 +44,20 @@ const chatHandlers = client => {
   };
 
   const handleLeaveClient = (chatroomName, res) => {
-    const leaveMessage = { event: `leaved ${chatroomName}` };
-
     getUserAndChatroom(chatroomName, client)
       .then(({ user, chatRoom }) => {
-        chatRoom.addMessageToHistory({ ...leaveMessage, ...user });
+        const leaveMessage = { event: `leaved ${chatroomName}`, ...user };
+
         chatRoom.removeUser(client);
+        chatRoom.addMessageToHistory(leaveMessage);
+
+        return { chatRoom, leaveMessage };
+      })
+      .then(({ chatRoom, leaveMessage }) => {
+        chatRoom.broadcastMessage(leaveMessage);
 
         res(null);
-        return chatRoom;
       })
-      .then(chatRoom => chatRoom.broadcastMessage(leaveMessage))
       .catch(err => console.log(err));
   };
 
@@ -66,7 +69,7 @@ const chatHandlers = client => {
 
         return res(null);
       })
-      .catch(err => console.log('eer', err));
+      .catch(err => console.log('err', err));
   };
 
   const handleDisconnect = () => {
