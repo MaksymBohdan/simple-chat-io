@@ -13,17 +13,16 @@ const Backdrop = styled.div`
 `;
 
 const ReturnBtn = styled.div`
-  background-color: yellow;
-  width: 200px;
-  max-height: 50px;
+  font-size: 30px;
   position: absolute;
+  color: white;
   top: 0;
-  left: 0;
+  right: 0;
 `;
 
 const ModalWindow = styled.div`
-  width: 700px;
-  height: 400px;
+  width: 800px;
+  height: 500px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
@@ -32,8 +31,8 @@ const ModalWindow = styled.div`
 `;
 
 const Inner = styled.div`
-  width: 700px;
-  height: 400px;
+  width: 800px;
+  height: 500px;
   display: flex;
   justify-content: center;
   padding-right: 17px;
@@ -41,4 +40,17 @@ const Inner = styled.div`
   box-sizing: content-box;
 `;
 
-export { Backdrop, ModalWindow, Inner, ReturnBtn };
+const UserPhoto = styled.img`
+  width: 300px;
+  height: 250px;
+  border-radius: 10px;
+`;
+
+const UserItem = styled.li`
+  margin-bottom: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+`;
+
+export { Backdrop, ModalWindow, Inner, ReturnBtn, UserPhoto, UserItem };

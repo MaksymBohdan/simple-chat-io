@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import unknownLogo from '../../assets/face.jpeg';
-
+import { LogoImg, StyledLink, LogoSpace } from './styles';
+import unknownLogo from '../../assets/logo.jpeg';
 
 const Logo = ({ user, width = '150', height = '150' }) => (
-  <div>
-    <Link to='/users'>
-      <img src={user ? user.image : unknownLogo} alt='face' width={width} height={height} />
-      <br />
-      {user ? user.name : 'Who are you ?'}
-    </Link>
-  </div>
+  <>
+    <LogoSpace>
+      <StyledLink to='/users'>
+        <LogoImg src={user ? user.image : unknownLogo} alt='face' width={width} height={height} />
+        <p>{user ? user.name : 'Who are you?'}</p>
+      </StyledLink>
+    </LogoSpace>
+  </>
 );
 
 export default Logo;

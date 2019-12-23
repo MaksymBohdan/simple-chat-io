@@ -1,10 +1,10 @@
 import React from 'react';
+import { UserPhoto } from './styles';
 
-const UserView = ({ user, onClick }) => (
+const UserView = ({ user, onClick, history }) => (
   <div onClick={onClick}>
+    <UserPhoto src={user.image} alt='user' history={history} />
     <p>{user.name}</p>
-    <img src={user.image} alt='user' />
-    <p>{user.statusText}</p>
   </div>
 );
 
